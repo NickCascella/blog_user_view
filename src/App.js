@@ -18,6 +18,8 @@ function App() {
         value={{
           token: token,
           setToken: setToken,
+          user: user,
+          setUser: setUser,
           blogs: blogs,
           setBlogs: setBlogs,
         }}

@@ -5,7 +5,7 @@ import { changeInputValue } from "../helperfunctions/helperfunctions";
 import { Redirect } from "../helperfunctions/helperfunctions";
 
 const Login_page = () => {
-  const [user, setUser] = useState("Nick");
+  const [loginUser, setLoginUser] = useState("Nick");
   const [password, setPassword] = useState("hello");
   const user_context = useContext(UserContext);
 
@@ -21,7 +21,7 @@ const Login_page = () => {
       },
       mode: "cors",
       data: {
-        username: user,
+        username: loginUser,
         password: password,
       },
     };
@@ -30,6 +30,7 @@ const Login_page = () => {
       options
     );
     user_context.setToken(get_token.data.token);
+    user_context.setUser(get_token.data.user);
   };
 
   return (
@@ -42,9 +43,9 @@ const Login_page = () => {
       <input
         type={"text"}
         name="newUser"
-        value={user}
+        value={loginUser}
         onChange={(e) => {
-          changeInputValue(e.target.value, setUser);
+          changeInputValue(e.target.value, setLoginUser);
         }}
       ></input>
       <input

@@ -11,9 +11,11 @@ const Blog_page = (props) => {
   const token = user_context.token;
   const [blog, setBlog] = useState();
   const [comment, setComment] = useState();
+  const [blogComments, setBlogComments] = useState([]);
 
-  useEffect(() => {
-    get_blog();
+  useEffect(async () => {
+    await get_blog();
+    get_blog_comments();
   }, []);
 
   const get_blog = async () => {
@@ -33,25 +35,62 @@ const Blog_page = (props) => {
     setBlog(response.data);
   };
 
-  const leave_comment = async () => {
+  const get_blog_comments = async () => {
     const options = {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      mode: "cors",
+    };
+    const get_blog_comments = await axios.get(
+      `http://localhost:4000/blogs/${id}/comments`,
+      options
+    );
+    const response = get_blog_comments;
+    console.log(response);
+    setBlogComments(response.data);
+  };
+
+  const leave_comment = async () => {
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+    const options = {
+      method: "POST",
       mode: "cors",
       data: {
         blog_id: id,
         comment: comment,
       },
     };
+
     const create_comment = await axios.post(
       `http://localhost:4000/blogs/${id}/comments`,
-      options
+      options,
+      { headers }
     );
     const response = create_comment;
-    console.log(response);
+  };
+
+  const render_blog_comments = () => {
+    if (blogComments.length === 0 || !blogComments) {
+      return <div>No comments yet</div>;
+    }
+    return (
+      <div>
+        {blogComments.map((comment) => {
+          return (
+            <div>
+              <div>{comment.body}</div>
+              <div>{comment.author}</div>
+            </div>
+          );
+        })}
+      </div>
+    );
   };
 
   if (!token) {
@@ -81,6 +120,7 @@ const Blog_page = (props) => {
           Send
         </button>
       </form>
+      <div>{render_blog_comments()}</div>
     </div>
   );
 };
