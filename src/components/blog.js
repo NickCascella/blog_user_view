@@ -3,14 +3,14 @@ import axios from "axios";
 import { UserContext } from "../App";
 import { useParams } from "react-router-dom";
 import Loading_page from "./loading";
-import { Redirect } from "../helperfunctions/helperfunctions";
+import { Redirect, changeInputValue } from "../helperfunctions/helperfunctions";
 
 const Blog_page = (props) => {
   const { id } = useParams();
   const user_context = useContext(UserContext);
   const token = user_context.token;
   const [blog, setBlog] = useState();
-  const [comments, setComments] = useState();
+  const [comment, setComment] = useState();
 
   useEffect(() => {
     get_blog();
@@ -33,6 +33,27 @@ const Blog_page = (props) => {
     setBlog(response.data);
   };
 
+  const leave_comment = () => {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      mode: "cors",
+      data: {
+        blog_id: id,
+        comment: comment,
+      },
+    };
+    const create_comment = await axios.post(
+      `http://localhost:4000/blogs/${id}/comments`,
+      options
+    );
+    const response = create_comment;
+    console.log(response);
+  };
+
   if (!token) {
     return <Redirect route={"/login"} />;
   } else if (!blog) {
@@ -43,6 +64,23 @@ const Blog_page = (props) => {
     <div>
       <h1>{blog.title}</h1>
       <div>{blog.body}</div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          leave_comment();
+        }}
+      >
+        <input
+          type={"text"}
+          placeholder="Comment here.."
+          onChange={(e) => {
+            changeInputValue(e.target.value, setComment);
+          }}
+        ></input>
+        <button type="submit" value={comment}>
+          Send
+        </button>
+      </form>
     </div>
   );
 };
