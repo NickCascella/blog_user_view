@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../App";
 import { changeInputValue } from "../helperfunctions/helperfunctions";
+import { Redirect } from "../helperfunctions/helperfunctions";
 
 const Login_page = () => {
   const [user, setUser] = useState("Nick");
@@ -9,7 +10,7 @@ const Login_page = () => {
   const user_context = useContext(UserContext);
 
   useEffect(() => {
-    console.log(user_context);
+    return <Redirect to={"/blogs"} />;
   }, [user_context.token]);
 
   const login = async () => {

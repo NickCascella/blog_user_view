@@ -1,10 +1,15 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../App";
 import { Redirect } from "../helperfunctions/helperfunctions";
+import Loading_page from "../components/loading";
+import { Link } from "react-router-dom";
 
 const Blogs = () => {
   const user_context = useContext(UserContext);
+  const token = user_context.token;
+  const blogs = user_context.blogs;
+  const setBlogs = user_context.setBlogs;
 
   useEffect(() => {
     get_blogs();
@@ -15,7 +20,7 @@ const Blogs = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${user_context.token}`,
+        Authorization: `Bearer ${token}`,
       },
       mode: "cors",
     };
@@ -24,12 +29,31 @@ const Blogs = () => {
       options
     );
     const response = get_all_blogs;
-    console.log(response);
+    setBlogs(response.data);
   };
+
+  const render_blogs = () => {
+    return blogs.map((blog) => {
+      return (
+        <div key={blog._id}>
+          <Link to={`/blogs/${blog._id}`}>
+            <h1>{blog.title}</h1>
+          </Link>
+        </div>
+      );
+    });
+  };
+
+  if (!token) {
+    return <Redirect route={"/login"} />;
+  } else if (!blogs) {
+    return <Loading_page message="No blogs yet :/" />;
+  }
+
   return (
     <div>
-      {!user_context.token && <Redirect route={"/login"}></Redirect>}
       <div>Welcome to blogs</div>
+      {render_blogs()}
     </div>
   );
 };
