@@ -33,7 +33,7 @@ const Blog_page = (props) => {
     setBlog(response.data);
   };
 
-  const leave_comment = () => {
+  const leave_comment = async () => {
     const options = {
       method: "POST",
       headers: {
