@@ -25,12 +25,14 @@ const Login_page = () => {
         password: password,
       },
     };
+
     const get_token = await axios.post(
       "http://localhost:4000/auth/login",
       options
     );
     user_context.setToken(get_token.data.token);
     user_context.setUser(get_token.data.user);
+    user_context.setUserId(get_token.data.userId);
   };
 
   return (

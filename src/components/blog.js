@@ -12,6 +12,8 @@ const Blog_page = (props) => {
   const [blog, setBlog] = useState();
   const [comment, setComment] = useState();
   const [blogComments, setBlogComments] = useState([]);
+  const [editingComment, setEditingComment] = useState(false);
+  const [editedComment, setEditiedComment] = useState("");
 
   useEffect(async () => {
     await get_blog();
@@ -49,7 +51,7 @@ const Blog_page = (props) => {
       options
     );
     const response = get_blog_comments;
-    console.log(response);
+    console.log(response.data);
     setBlogComments(response.data);
   };
 
@@ -72,7 +74,49 @@ const Blog_page = (props) => {
       options,
       { headers }
     );
-    const response = create_comment;
+    get_blog_comments();
+  };
+
+  const delete_comment = async (comment_id) => {
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        blog_comment_id: comment_id,
+      },
+    };
+
+    const delete_comment_request = await axios.delete(
+      `http://localhost:4000/blogs/${id}/comments`,
+      options
+    );
+    get_blog_comments();
+  };
+
+  const edit_comment = async (comment_id) => {
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+    const options = {
+      data: {
+        comment_id: comment_id,
+        comment: editedComment,
+      },
+    };
+
+    const submit_edits = await axios.put(
+      `http://localhost:4000/blogs/${id}/comments`,
+      options,
+      { headers }
+    );
+    get_blog_comments();
+  };
+
+  const check_comment = (blog_comment_id) => {
+    return editedComment._id === blog_comment_id ? true : false;
   };
 
   const render_blog_comments = () => {
@@ -81,11 +125,51 @@ const Blog_page = (props) => {
     }
     return (
       <div>
-        {blogComments.map((comment) => {
+        {blogComments.map((blog_comment) => {
           return (
-            <div>
-              <div>{comment.body}</div>
-              <div>{comment.author}</div>
+            <div key={blog_comment._id}>
+              {!editingComment && (
+                <div>
+                  <div>{blog_comment.body}</div>
+                  <div>{blog_comment.author.username}</div>
+                  <button
+                    onClick={() => {
+                      delete_comment(blog_comment._id);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+              {editingComment && (
+                <div>
+                  <form>
+                    <input
+                      value={editedComment.body}
+                      onChange={(e) => {
+                        changeInputValue(e.target.value, setEditiedComment);
+                      }}
+                    ></input>
+                    <button
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        await edit_comment(blog_comment._id);
+                        setEditingComment(!editingComment);
+                      }}
+                    >
+                      Submit Edits
+                    </button>
+                  </form>
+                </div>
+              )}
+              <button
+                onClick={() => {
+                  setEditingComment(!editingComment);
+                  setEditiedComment(blog_comment);
+                }}
+              >
+                Edit
+              </button>
             </div>
           );
         })}
@@ -115,10 +199,9 @@ const Blog_page = (props) => {
           onChange={(e) => {
             changeInputValue(e.target.value, setComment);
           }}
+          value={comment}
         ></input>
-        <button type="submit" value={comment}>
-          Send
-        </button>
+        <button type="submit">Send</button>
       </form>
       <div>{render_blog_comments()}</div>
     </div>

@@ -11,6 +11,7 @@ function App() {
   const [token, setToken] = useState(null);
   const [blogs, setBlogs] = useState();
   const [user, setUser] = useState("Nick");
+  const [userId, setUserId] = useState();
 
   return (
     <Router>
@@ -20,6 +21,8 @@ function App() {
           setToken: setToken,
           user: user,
           setUser: setUser,
+          userId: userId,
+          setUserId: setUserId,
           blogs: blogs,
           setBlogs: setBlogs,
         }}
