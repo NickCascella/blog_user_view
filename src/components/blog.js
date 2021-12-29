@@ -106,12 +106,15 @@ const Blog_page = (props) => {
         comment: editedComment,
       },
     };
+    console.log(editedComment);
 
     const submit_edits = await axios.put(
       `http://localhost:4000/blogs/${id}/comments`,
       options,
       { headers }
     );
+    setEditiedComment(false);
+    setEditingComment(false);
     get_blog_comments();
   };
 
@@ -128,7 +131,7 @@ const Blog_page = (props) => {
         {blogComments.map((blog_comment) => {
           return (
             <div key={blog_comment._id}>
-              {!editingComment && (
+              {!check_comment(blog_comment._id) && (
                 <div>
                   <div>{blog_comment.body}</div>
                   <div>{blog_comment.author.username}</div>
@@ -141,13 +144,16 @@ const Blog_page = (props) => {
                   </button>
                 </div>
               )}
-              {editingComment && (
+              {editingComment && check_comment(blog_comment._id) && (
                 <div>
                   <form>
                     <input
                       value={editedComment.body}
                       onChange={(e) => {
-                        changeInputValue(e.target.value, setEditiedComment);
+                        let editedCommentCopy = { ...editedComment };
+                        editedCommentCopy.body = e.target.value;
+
+                        changeInputValue(editedCommentCopy, setEditiedComment);
                       }}
                     ></input>
                     <button
@@ -165,7 +171,9 @@ const Blog_page = (props) => {
               <button
                 onClick={() => {
                   setEditingComment(!editingComment);
-                  setEditiedComment(blog_comment);
+                  editedComment
+                    ? setEditiedComment(false)
+                    : setEditiedComment(blog_comment);
                 }}
               >
                 Edit
