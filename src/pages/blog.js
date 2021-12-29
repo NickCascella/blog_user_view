@@ -2,9 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../App";
 import { useParams } from "react-router-dom";
-import Loading_page from "./loading";
+import Loading_page from "../components/loading";
+import Button from "../components/button";
+import Input from "../components/input";
+import Redirect from "../components/redirect";
 import {
-  Redirect,
   changeInputValue,
   leave_comment,
   delete_comment,
@@ -74,30 +76,32 @@ const Blog_page = (props) => {
                   <div>{blog_comment.body}</div>
                   <div>{blog_comment.author.username}</div>
                   {blog_comment.author.username === user_context.user && (
-                    <button
-                      onClick={async () => {
+                    <Button
+                      text="Delete"
+                      on_click={async () => {
                         await delete_comment(token, id, blog_comment._id);
                         get_blog_comments();
                       }}
-                    >
-                      Delete
-                    </button>
+                    />
                   )}
                 </div>
               )}
               {check_same_comment(editedComment._id, blog_comment._id) && (
                 <div>
-                  <input
-                    value={editedComment.body}
-                    onChange={(e) => {
+                  <Input
+                    type="text"
+                    placeholder="Your edited comment"
+                    on_change={(e) => {
                       let editedCommentCopy = { ...editedComment };
                       editedCommentCopy.body = e.target.value;
 
                       changeInputValue(editedCommentCopy, setEditiedComment);
                     }}
-                  ></input>
-                  <button
-                    onClick={async (e) => {
+                    value={editedComment.body}
+                  />
+                  <Button
+                    text="Submit Edits"
+                    on_click={async (e) => {
                       e.preventDefault();
                       await edit_comment(
                         token,
@@ -108,32 +112,31 @@ const Blog_page = (props) => {
                       );
                       get_blog_comments();
                     }}
-                  >
-                    Submit Edits
-                  </button>
+                  />
                 </div>
               )}
-              <button
-                onClick={() => {
-                  editedComment
-                    ? setEditiedComment(false)
-                    : setEditiedComment(blog_comment);
-                }}
-              >
-                {blog_comment.author.username === user_context.user && (
-                  <div>
-                    {" "}
-                    {!check_same_comment(
-                      editedComment._id,
-                      blog_comment._id
-                    ) && <div>Edit</div>}
-                    {check_same_comment(
-                      editedComment._id,
-                      blog_comment._id
-                    ) && <div>Cancel</div>}
-                  </div>
-                )}
-              </button>
+              {blog_comment.author.username === user_context.user && (
+                <Button
+                  text={
+                    <div>
+                      {" "}
+                      {!check_same_comment(
+                        editedComment._id,
+                        blog_comment._id
+                      ) && <div>Edit</div>}
+                      {check_same_comment(
+                        editedComment._id,
+                        blog_comment._id
+                      ) && <div>Cancel</div>}
+                    </div>
+                  }
+                  on_click={() => {
+                    editedComment
+                      ? setEditiedComment(false)
+                      : setEditiedComment(blog_comment);
+                  }}
+                />
+              )}
             </div>
           );
         })}
@@ -144,29 +147,31 @@ const Blog_page = (props) => {
   if (!token) {
     return <Redirect route={"/login"} />;
   } else if (!blog) {
-    return <Loading_page message={"Cant find blog :("} />;
+    return <Loading_page message={"Loading :("} />;
   }
 
   return (
     <div>
       <h1>{blog.title}</h1>
       <div>{blog.body}</div>
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          await leave_comment(token, id, comment);
-          get_blog_comments();
-        }}
-      >
-        <input
-          type={"text"}
+      <form>
+        <Input
+          type="text"
           placeholder="Comment here.."
-          onChange={(e) => {
+          on_change={(e) => {
             changeInputValue(e.target.value, setComment);
           }}
           value={comment}
-        ></input>
-        <button type="submit">Send</button>
+        />
+        <Button
+          text={"Send"}
+          on_click={async (e) => {
+            e.preventDefault();
+            await leave_comment(token, id, comment);
+            get_blog_comments();
+            setComment("");
+          }}
+        />
       </form>
       <div>{render_blog_comments()}</div>
     </div>

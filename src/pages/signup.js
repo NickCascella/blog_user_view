@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { changeInputValue, Redirect } from "../helperfunctions/helperfunctions";
+import { changeInputValue } from "../helperfunctions/helperfunctions";
+import Redirect from "../components/redirect";
+import Input from "../components/input";
+import Button from "../components/button";
 
 const Signup_page = () => {
   const [newUser, setNewUser] = useState("Nick");
   const [newPassword, setNewPassword] = useState("hello");
   const [confirmPassword, setConfirmedPassword] = useState("hello");
   const [signedUp, setSignedUp] = useState(false);
-
-  useEffect(() => {}, []);
 
   const signupTest = async () => {
     const options = {
@@ -37,37 +38,35 @@ const Signup_page = () => {
   return (
     <div>
       {signedUp && <Redirect route={"/login"}></Redirect>}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          signupTest();
-        }}
-      >
-        <input
+      <form>
+        <Input
           type={"text"}
-          name="newUser"
           value={newUser}
-          onChange={(e) => {
+          on_change={(e) => {
             changeInputValue(e.target.value, setNewUser);
           }}
-        ></input>
-        <input
+        />
+        <Input
           type={"password"}
-          name="newPassword"
           value={newPassword}
-          onChange={(e) => {
+          on_change={(e) => {
             changeInputValue(e.target.value, setNewPassword);
           }}
-        ></input>
-        <input
+        />
+        <Input
           type={"password"}
-          name="confirmPassword"
           value={confirmPassword}
-          onChange={(e) => {
+          on_change={(e) => {
             changeInputValue(e.target.value, setConfirmedPassword);
           }}
-        ></input>
-        <button type="submit">Signup Test</button>
+        />
+        <Button
+          text={"Submit"}
+          on_click={(e) => {
+            e.preventDefault();
+            signupTest();
+          }}
+        />
       </form>
     </div>
   );

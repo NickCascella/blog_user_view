@@ -1,12 +1,7 @@
-import { Navigate } from "react-router-dom";
 import axios from "axios";
 
 const changeInputValue = (value, state_changing) => {
   state_changing(value);
-};
-
-const Redirect = ({ route }) => {
-  return <Navigate to={route} />;
 };
 
 const get_blog_comments = async (token, id, setBlogComments) => {
@@ -98,7 +93,6 @@ const check_same_comment = (edited_comment_id, blog_comment_id) => {
 
 export {
   changeInputValue,
-  Redirect,
   get_blog_comments,
   leave_comment,
   delete_comment,

@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import Signup_page from "./pages/signup";
 import Login_page from "./pages/login";
 import Blogs from "./pages/blogs";
-import Blog_page from "./components/blog";
+import Blog_page from "./pages/blog";
+import "../src/App.css";
 
 const UserContext = React.createContext();
 
@@ -39,11 +40,11 @@ function App() {
                 <Link to="/login">Login</Link>
               </li>
             )}
-            {token && (
+            {/* {token && (
               <li>
                 <Link to="/blogs">Blogs</Link>
               </li>
-            )}
+            )} */}
           </nav>
           <div>
             <Routes>

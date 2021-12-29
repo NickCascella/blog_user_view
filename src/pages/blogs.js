@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../App";
-import { Redirect } from "../helperfunctions/helperfunctions";
+import Redirect from "../components/redirect";
 import Loading_page from "../components/loading";
 import { Link } from "react-router-dom";
 

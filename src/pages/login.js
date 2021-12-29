@@ -2,16 +2,14 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../App";
 import { changeInputValue } from "../helperfunctions/helperfunctions";
-import { Redirect } from "../helperfunctions/helperfunctions";
+import Button from "../components/button";
+import Input from "../components/input";
+import Redirect from "../components/redirect";
 
 const Login_page = () => {
   const [loginUser, setLoginUser] = useState("Nick");
   const [password, setPassword] = useState("hello");
   const user_context = useContext(UserContext);
-
-  useEffect(() => {
-    return <Redirect to={"/blogs"} />;
-  }, [user_context.token]);
 
   const login = async () => {
     const options = {
@@ -35,30 +33,33 @@ const Login_page = () => {
     user_context.setUserId(get_token.data.userId);
   };
 
+  if (user_context.token) {
+    return <Redirect route={"/blogs"} />;
+  }
+
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        login();
-      }}
-    >
-      <input
-        type={"text"}
-        name="newUser"
+    <form>
+      <Input
+        type="text"
         value={loginUser}
-        onChange={(e) => {
+        on_change={(e) => {
           changeInputValue(e.target.value, setLoginUser);
         }}
-      ></input>
-      <input
-        type={"password"}
-        name="newPassword"
+      />
+      <Input
+        type="password"
         value={password}
-        onChange={(e) => {
+        on_change={(e) => {
           changeInputValue(e.target.value, setPassword);
         }}
-      ></input>
-      <button type="submit">login Test</button>
+      />
+      <Button
+        text={"Login"}
+        on_click={(e) => {
+          e.preventDefault();
+          login();
+        }}
+      />
     </form>
   );
 };
