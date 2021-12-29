@@ -3,16 +3,22 @@ import axios from "axios";
 import { UserContext } from "../App";
 import { useParams } from "react-router-dom";
 import Loading_page from "./loading";
-import { Redirect, changeInputValue } from "../helperfunctions/helperfunctions";
+import {
+  Redirect,
+  changeInputValue,
+  leave_comment,
+  delete_comment,
+  edit_comment,
+  check_same_comment,
+} from "../helperfunctions/helperfunctions";
 
 const Blog_page = (props) => {
   const { id } = useParams();
   const user_context = useContext(UserContext);
   const token = user_context.token;
-  const [blog, setBlog] = useState();
-  const [comment, setComment] = useState();
+  const [blog, setBlog] = useState("");
+  const [comment, setComment] = useState("");
   const [blogComments, setBlogComments] = useState([]);
-  const [editingComment, setEditingComment] = useState(false);
   const [editedComment, setEditiedComment] = useState("");
 
   useEffect(async () => {
@@ -51,75 +57,7 @@ const Blog_page = (props) => {
       options
     );
     const response = get_blog_comments;
-    console.log(response.data);
     setBlogComments(response.data);
-  };
-
-  const leave_comment = async () => {
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    };
-    const options = {
-      method: "POST",
-      mode: "cors",
-      data: {
-        blog_id: id,
-        comment: comment,
-      },
-    };
-
-    const create_comment = await axios.post(
-      `http://localhost:4000/blogs/${id}/comments`,
-      options,
-      { headers }
-    );
-    get_blog_comments();
-  };
-
-  const delete_comment = async (comment_id) => {
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      data: {
-        blog_comment_id: comment_id,
-      },
-    };
-
-    const delete_comment_request = await axios.delete(
-      `http://localhost:4000/blogs/${id}/comments`,
-      options
-    );
-    get_blog_comments();
-  };
-
-  const edit_comment = async (comment_id) => {
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    };
-    const options = {
-      data: {
-        comment_id: comment_id,
-        comment: editedComment,
-      },
-    };
-    console.log(editedComment);
-
-    const submit_edits = await axios.put(
-      `http://localhost:4000/blogs/${id}/comments`,
-      options,
-      { headers }
-    );
-    setEditiedComment(false);
-    setEditingComment(false);
-    get_blog_comments();
-  };
-
-  const check_comment = (blog_comment_id) => {
-    return editedComment._id === blog_comment_id ? true : false;
   };
 
   const render_blog_comments = () => {
@@ -131,52 +69,70 @@ const Blog_page = (props) => {
         {blogComments.map((blog_comment) => {
           return (
             <div key={blog_comment._id}>
-              {!check_comment(blog_comment._id) && (
+              {!check_same_comment(editedComment._id, blog_comment._id) && (
                 <div>
                   <div>{blog_comment.body}</div>
                   <div>{blog_comment.author.username}</div>
-                  <button
-                    onClick={() => {
-                      delete_comment(blog_comment._id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
-              )}
-              {editingComment && check_comment(blog_comment._id) && (
-                <div>
-                  <form>
-                    <input
-                      value={editedComment.body}
-                      onChange={(e) => {
-                        let editedCommentCopy = { ...editedComment };
-                        editedCommentCopy.body = e.target.value;
-
-                        changeInputValue(editedCommentCopy, setEditiedComment);
-                      }}
-                    ></input>
+                  {blog_comment.author.username === user_context.user && (
                     <button
-                      onClick={async (e) => {
-                        e.preventDefault();
-                        await edit_comment(blog_comment._id);
-                        setEditingComment(!editingComment);
+                      onClick={async () => {
+                        await delete_comment(token, id, blog_comment._id);
+                        get_blog_comments();
                       }}
                     >
-                      Submit Edits
+                      Delete
                     </button>
-                  </form>
+                  )}
+                </div>
+              )}
+              {check_same_comment(editedComment._id, blog_comment._id) && (
+                <div>
+                  <input
+                    value={editedComment.body}
+                    onChange={(e) => {
+                      let editedCommentCopy = { ...editedComment };
+                      editedCommentCopy.body = e.target.value;
+
+                      changeInputValue(editedCommentCopy, setEditiedComment);
+                    }}
+                  ></input>
+                  <button
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      await edit_comment(
+                        token,
+                        id,
+                        blog_comment._id,
+                        editedComment,
+                        setEditiedComment
+                      );
+                      get_blog_comments();
+                    }}
+                  >
+                    Submit Edits
+                  </button>
                 </div>
               )}
               <button
                 onClick={() => {
-                  setEditingComment(!editingComment);
                   editedComment
                     ? setEditiedComment(false)
                     : setEditiedComment(blog_comment);
                 }}
               >
-                Edit
+                {blog_comment.author.username === user_context.user && (
+                  <div>
+                    {" "}
+                    {!check_same_comment(
+                      editedComment._id,
+                      blog_comment._id
+                    ) && <div>Edit</div>}
+                    {check_same_comment(
+                      editedComment._id,
+                      blog_comment._id
+                    ) && <div>Cancel</div>}
+                  </div>
+                )}
               </button>
             </div>
           );
@@ -196,9 +152,10 @@ const Blog_page = (props) => {
       <h1>{blog.title}</h1>
       <div>{blog.body}</div>
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          leave_comment();
+          await leave_comment(token, id, comment);
+          get_blog_comments();
         }}
       >
         <input
