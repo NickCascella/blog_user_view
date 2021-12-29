@@ -1,3 +1,5 @@
-.hello {
-  background-color: gray;
+$primary-color: yellow;
+
+.button {
+  background-color: $primary-color;
 }

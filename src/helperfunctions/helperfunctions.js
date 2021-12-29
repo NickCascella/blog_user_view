@@ -5,6 +5,15 @@ const changeInputValue = (value, state_changing) => {
   state_changing(value);
 };
 
+const create_timestamp = () => {
+  let date = format(new Date(), "yyyy-MM-dd @ ");
+  const hours = format(new Date(), "HH");
+  let formatted_hours = hours > 12 ? hours - 12 : hours;
+  let am_or_pm = hours > 12 ? "pm" : "am";
+  const minutes = format(new Date(), "mm");
+  return (date += `${formatted_hours}:${minutes}${am_or_pm} EST`);
+};
+
 const get_blog_comments = async (token, id, setBlogComments) => {
   const options = {
     method: "GET",
@@ -28,7 +37,7 @@ const leave_comment = async (token, id, comment) => {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
-  const date = format(new Date(), "yyyy-MM-dd @ HH:mm");
+  const date = create_timestamp();
   const options = {
     method: "POST",
     mode: "cors",
@@ -74,8 +83,8 @@ const edit_comment = async (
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
-  // const date = format(new Date(), "yyyy-MM-dd @ HH:mm");
-  editedComment.date = `Comment edited - ${editedComment.date}`;
+
+  editedComment.date = `edited - ${editedComment.date}`;
   const options = {
     data: {
       comment_id: comment_id,
@@ -89,7 +98,6 @@ const edit_comment = async (
     { headers }
   );
   setEditiedComment(false);
-  // get_blog_comments();
 };
 
 const check_same_comment = (edited_comment_id, blog_comment_id) => {
