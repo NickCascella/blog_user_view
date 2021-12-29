@@ -137,6 +137,7 @@ const Blog_page = (props) => {
                   }}
                 />
               )}
+              <div>{blog_comment.date}</div>
             </div>
           );
         })}

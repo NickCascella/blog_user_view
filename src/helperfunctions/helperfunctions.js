@@ -1,4 +1,5 @@
 import axios from "axios";
+import { format } from "date-fns";
 
 const changeInputValue = (value, state_changing) => {
   state_changing(value);
@@ -27,12 +28,14 @@ const leave_comment = async (token, id, comment) => {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
+  const date = format(new Date(), "yyyy-MM-dd @ HH:mm");
   const options = {
     method: "POST",
     mode: "cors",
     data: {
       blog_id: id,
       comment: comment,
+      date: date,
     },
   };
 
@@ -71,6 +74,8 @@ const edit_comment = async (
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
+  // const date = format(new Date(), "yyyy-MM-dd @ HH:mm");
+  editedComment.date = `Comment edited - ${editedComment.date}`;
   const options = {
     data: {
       comment_id: comment_id,
