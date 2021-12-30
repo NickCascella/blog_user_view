@@ -29,7 +29,7 @@ const Signup_page = () => {
       options
     );
     const response = signup_request;
-    console.log(response);
+
     response.data.errors
       ? console.log(response.data.errors.msg)
       : setSignedUp(true);

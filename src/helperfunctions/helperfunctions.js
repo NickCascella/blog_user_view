@@ -113,8 +113,10 @@ const edit_comment = async (
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
-
-  editedComment.date = `edited - ${editedComment.date}`;
+  const format_comment = editedComment.date.split("edited");
+  format_comment[0]
+    ? (editedComment.date = `edited - ${format_comment[0]}`)
+    : (editedComment.date = `edited ${format_comment[1]}`);
   const options = {
     data: {
       comment_id: comment_id,
@@ -128,6 +130,10 @@ const edit_comment = async (
     { headers }
   );
   setEditiedComment(false);
+  const error_array = submit_edits.data.errors;
+  if (error_array) {
+    return error_array;
+  }
 };
 
 const check_same_comment = (edited_comment_id, blog_comment_id) => {

@@ -104,13 +104,17 @@ const Blog_page = (props) => {
                     text="Submit Edits"
                     on_click={async (e) => {
                       e.preventDefault();
-                      await edit_comment(
+                      setErrorResponse(null);
+                      let error_response = await edit_comment(
                         token,
                         id,
                         blog_comment._id,
                         editedComment,
                         setEditiedComment
                       );
+                      error_response
+                        ? setErrorResponse(error_response)
+                        : setErrorResponse(null);
                       get_blog_comments();
                     }}
                   />
@@ -171,6 +175,7 @@ const Blog_page = (props) => {
             e.preventDefault();
             setErrorResponse(null);
             let error_response = await leave_comment(token, id, comment);
+
             error_response
               ? setErrorResponse(error_response)
               : setErrorResponse(null);
@@ -183,7 +188,7 @@ const Blog_page = (props) => {
       <div>
         {errorResponse &&
           errorResponse.map((error) => {
-            return <div>{error.msg}</div>;
+            return <div key={error.msg}>{error.msg}</div>;
           })}
       </div>
     </div>
