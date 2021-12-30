@@ -22,6 +22,7 @@ const Blog_page = (props) => {
   const [comment, setComment] = useState("");
   const [blogComments, setBlogComments] = useState([]);
   const [editedComment, setEditiedComment] = useState("");
+  const [errorResponse, setErrorResponse] = useState(null);
 
   useEffect(async () => {
     await get_blog();
@@ -168,13 +169,23 @@ const Blog_page = (props) => {
           text={"Send"}
           on_click={async (e) => {
             e.preventDefault();
-            await leave_comment(token, id, comment);
+            setErrorResponse(null);
+            let error_response = await leave_comment(token, id, comment);
+            error_response
+              ? setErrorResponse(error_response)
+              : setErrorResponse(null);
             get_blog_comments();
             setComment("");
           }}
         />
       </form>
       <div>{render_blog_comments()}</div>
+      <div>
+        {errorResponse &&
+          errorResponse.map((error) => {
+            return <div>{error.msg}</div>;
+          })}
+      </div>
     </div>
   );
 };

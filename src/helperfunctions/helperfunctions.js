@@ -78,6 +78,11 @@ const leave_comment = async (token, id, comment) => {
     options,
     { headers }
   );
+
+  const error_array = create_comment.data.errors;
+  if (error_array) {
+    return error_array;
+  }
 };
 
 const delete_comment = async (token, id, comment_id) => {

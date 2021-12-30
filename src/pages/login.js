@@ -29,6 +29,7 @@ const Login_page = () => {
     );
     setLoginUser("");
     setPassword("");
+
     user_context.setUser(get_token.data.user);
     user_context.setUserId(get_token.data.userId);
     user_context.setToken(get_token.data.token);
