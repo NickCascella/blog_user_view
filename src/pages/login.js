@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../App";
 import { changeInputValue } from "../helperfunctions/helperfunctions";
@@ -13,7 +13,6 @@ const Login_page = () => {
 
   const login = async () => {
     const options = {
-      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -28,9 +27,11 @@ const Login_page = () => {
       "http://localhost:4000/auth/login",
       options
     );
-    user_context.setToken(get_token.data.token);
+    setLoginUser("");
+    setPassword("");
     user_context.setUser(get_token.data.user);
     user_context.setUserId(get_token.data.userId);
+    user_context.setToken(get_token.data.token);
   };
 
   if (user_context.token) {

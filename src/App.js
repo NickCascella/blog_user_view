@@ -1,18 +1,20 @@
+import "../src/App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import Signup_page from "./pages/signup";
 import Login_page from "./pages/login";
 import Blogs from "./pages/blogs";
 import Blog_page from "./pages/blog";
-import "../src/App.css";
+import { logout } from "./helperfunctions/helperfunctions";
+import Custom_Link from "./components/link";
 
 const UserContext = React.createContext();
 
 function App() {
   const [token, setToken] = useState(null);
-  const [blogs, setBlogs] = useState();
-  const [user, setUser] = useState("Nick");
-  const [userId, setUserId] = useState();
+  const [blogs, setBlogs] = useState(null);
+  const [user, setUser] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   return (
     <Router>
@@ -30,22 +32,23 @@ function App() {
       >
         <div>
           <nav>
-            {!token && (
-              <li>
-                <Link to="/signup">Signup</Link>
-              </li>
-            )}
-            {!token && (
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-            )}
-            {/* {token && (
-              <li>
-                <Link to="/blogs">Blogs</Link>
-              </li>
-            )} */}
+            <div className="inner_nav">
+              <div className="nav_content">
+                {!token && <Custom_Link text={"Signup"} route={"/signup"} />}
+                {!token && <Custom_Link text={"Login"} route={"/login"} />}
+                {token && (
+                  <Custom_Link
+                    text={"Logout"}
+                    route={"/login"}
+                    on_click={() => {
+                      logout(setToken, setUser, setUserId, setBlogs);
+                    }}
+                  />
+                )}
+              </div>
+            </div>
           </nav>
+
           <div>
             <Routes>
               <Route path="/signup" element={<Signup_page />}></Route>

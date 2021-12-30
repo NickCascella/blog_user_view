@@ -3,3 +3,34 @@ $primary-color: yellow;
 .button {
   background-color: $primary-color;
 }
+html {
+  * {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+nav {
+  display: flex;
+  background-color: pink;
+  justify-content: center;
+  padding: 10px;
+  .inner_nav {
+    display: flex;
+    justify-content: right;
+    max-width: 1400px;
+    width: 100%;
+    .nav_content {
+      // padding: 10px 0;
+      display: flex;
+      width: 35%;
+      justify-content: space-around;
+
+      .link {
+        text-decoration: none;
+        color: black;
+        margin-right: 15px;
+      }
+    }
+  }
+}

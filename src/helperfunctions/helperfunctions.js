@@ -14,6 +14,31 @@ const create_timestamp = () => {
   return (date += `${formatted_hours}:${minutes}${am_or_pm} EST`);
 };
 
+const logout = (setToken, setUser, setUserId, setBlogs) => {
+  setToken(null);
+  setUser(null);
+  setUserId(null);
+  setBlogs(null);
+};
+
+//GET BLOGS
+
+const get_blogs = async (token, setBlogs) => {
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    mode: "cors",
+  };
+  const get_all_blogs = await axios.get("http://localhost:4000/blogs", options);
+  const response = get_all_blogs;
+  setBlogs(response.data);
+};
+
+//COMMENT RELATED FUNCTION BELOW
+
 const get_blog_comments = async (token, id, setBlogComments) => {
   const options = {
     method: "GET",
@@ -106,6 +131,8 @@ const check_same_comment = (edited_comment_id, blog_comment_id) => {
 
 export {
   changeInputValue,
+  logout,
+  get_blogs,
   get_blog_comments,
   leave_comment,
   delete_comment,
