@@ -95,7 +95,6 @@ const Blog_page = (props) => {
                     on_change={(e) => {
                       let editedCommentCopy = { ...editedComment };
                       editedCommentCopy.body = e.target.value;
-
                       changeInputValue(editedCommentCopy, setEditiedComment);
                     }}
                     value={editedComment.body}

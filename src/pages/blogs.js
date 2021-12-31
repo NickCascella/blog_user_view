@@ -18,14 +18,16 @@ const Blogs = () => {
 
   const render_blogs = () => {
     return blogs.map((blog) => {
-      return (
-        <div key={blog._id}>
-          <Link to={`/blogs/${blog._id}`}>
-            <h1>{blog.title}</h1>
-            <h2>{blog.description}</h2>
-          </Link>
-        </div>
-      );
+      if (blog.published) {
+        return (
+          <div key={blog._id}>
+            <Link to={`/blogs/${blog._id}`}>
+              <h1>{blog.title}</h1>
+              <h2>{blog.description}</h2>
+            </Link>
+          </div>
+        );
+      }
     });
   };
 
