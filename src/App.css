@@ -1,46 +1,326 @@
-.button {
-  background-color: yellow;
+html {
+  overflow-x: hidden;
 }
 
 html * {
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
-nav {
+.button-component {
+  background: #21132c;
+  color: white;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  font-size: 18px;
+}
+
+.button-component:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.input-component {
+  background: #19154d;
+  border: none;
+  border-radius: 5px;
+  max-width: 250px;
+  padding: 6px;
+  font-size: 16px;
+  outline: none;
+  color: white;
+}
+
+.label-component {
+  max-width: -webkit-max-content;
+  max-width: -moz-max-content;
+  max-width: max-content;
+}
+
+.textarea-component {
+  background: #19154d;
+  color: white;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: none;
+  border-radius: 5px;
+  resize: none;
+  font-size: 20px;
+  line-height: 24px;
+  overflow: auto;
+  height: auto;
+  max-width: 400px;
+  padding: 8px;
+}
+
+.rendered-errors {
+  margin-top: 20px;
+}
+
+.rendered-errors .rendered-error-header {
+  font-size: 16px;
+  text-decoration: underline;
+}
+
+.rendered-errors .rendered-errors-list * {
+  margin-top: 10px;
+}
+
+.App {
+  color: white;
+  background: -webkit-gradient(linear, right top, left top, from(#6c7cad), to(#5561dd));
+  background: linear-gradient(to left, #6c7cad, #5561dd);
+  width: 100%;
+  height: 100vh;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  background-color: pink;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.App nav {
+  width: 100%;
+  background-color: #19154d;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  padding: 10px;
 }
 
-nav .inner_nav {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: right;
-      -ms-flex-pack: right;
-          justify-content: right;
+.App nav .inner-nav {
   max-width: 1400px;
   width: 100%;
 }
 
-nav .inner_nav .nav_content {
+.App nav .inner-nav .nav-links {
+  max-width: 700px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: 35%;
   -ms-flex-pack: distribute;
       justify-content: space-around;
+  margin-left: auto;
+  width: 100%;
 }
 
-nav .inner_nav .nav_content .link {
+.App nav .inner-nav .nav-links .nav-link {
+  color: white;
   text-decoration: none;
-  color: black;
-  margin-right: 15px;
+  margin: 10px 15px;
+  font-size: 20px;
+  display: inline-block;
+  position: relative;
+}
+
+.App nav .inner-nav .nav-links .nav-link::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  -webkit-transform: scaleX(0);
+          transform: scaleX(0);
+  height: 2px;
+  margin-top: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+  -webkit-transition: -webkit-transform 0.25s ease-out;
+  transition: -webkit-transform 0.25s ease-out;
+  transition: transform 0.25s ease-out;
+  transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
+}
+
+.App nav .inner-nav .nav-links .nav-link:hover::after {
+  -webkit-transform: scaleX(1);
+          transform: scaleX(1);
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+}
+
+.App .login-page {
+  margin: auto;
+  max-width: 400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 25px;
+  border-radius: 7px;
+  height: 100%;
+}
+
+.App .login-page * {
+  margin-top: 10px;
+}
+
+.App .login-page form {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  font-size: 20px;
+}
+
+.App .login-page form .label-component {
+  margin-top: 20px;
+}
+
+.App .login-page form .input-component {
+  width: 150px;
+}
+
+.App .login-page button {
+  margin: 40px auto;
+}
+
+.App .blogs-page {
+  max-width: 1400px;
+  margin-top: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+}
+
+.App .blogs-page .blogs-list-header {
+  margin: 0 30px;
+  word-wrap: break-word;
+}
+
+.App .blogs-page .blogs-list {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.App .blogs-page .blogs-list .blog-preview {
+  margin: 20px 30px;
+  background: #19154d;
+  padding: 15px;
+  border-radius: 10px;
+  max-width: 200px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.App .blogs-page .blogs-list .blog-preview:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+  -webkit-box-shadow: 0px 0px 14px #000000;
+          box-shadow: 0px 0px 14px #000000;
+}
+
+.App .blogs-page .blogs-list .blog-preview .blog-link {
+  text-decoration: none;
+  color: white;
+}
+
+.App .blogs-page .blogs-list .blog-preview .blog-title {
+  margin-bottom: 20px;
+}
+
+.App .blogs-page .blogs-list .blog-preview h2 {
+  font-size: 20px;
+  font-weight: normal;
+}
+
+.App .blogs-page .blogs-list .blog-preview .blog-author-container .blog-author-name {
+  font-style: italic;
+}
+
+.App .blogs-page .blogs-list .blog-preview .blog-description {
+  margin-top: 20px;
+  word-break: break-word;
+}
+
+.App .blog-page {
+  max-width: 1400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 20px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+}
+
+.App .blog-page .blog-page-inner {
+  max-width: 400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.App .blog-page .blog-page-inner .blog-title {
+  font-size: 50px;
+}
+
+.App .blog-page .blog-page-inner * {
+  margin-top: 10px;
 }
 /*# sourceMappingURL=App.css.map */

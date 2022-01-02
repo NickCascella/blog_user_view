@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { changeInputValue } from "../helperfunctions/helperfunctions";
+import {
+  changeInputValue,
+  render_errors,
+} from "../helperfunctions/helperfunctions";
 import Redirect from "../components/redirect";
 import Input from "../components/input";
 import Button from "../components/button";
+import Label from "../components/label";
 
 const Signup_page = () => {
   const [newUser, setNewUser] = useState("Nick");
   const [newPassword, setNewPassword] = useState("hello");
   const [confirmPassword, setConfirmedPassword] = useState("hello");
+  const [errorResponse, setErrorResponse] = useState(null);
   const [signedUp, setSignedUp] = useState(false);
 
   const signupTest = async () => {
@@ -29,16 +34,22 @@ const Signup_page = () => {
       options
     );
     const response = signup_request;
+    console.log(response);
+    if (response.data.errors) {
+      setErrorResponse(response.data.errors);
+      return;
+    }
 
-    response.data.errors
-      ? console.log(response.data.errors.msg)
-      : setSignedUp(true);
+    setSignedUp(true);
   };
 
   return (
-    <div>
+    <div className="login-page">
       {signedUp && <Redirect route={"/login"}></Redirect>}
+      <h1>Signup today!</h1>
+      <h2>Begin browsing blogs instantly!</h2>
       <form>
+        <Label label={"Username"} />
         <Input
           type={"text"}
           value={newUser}
@@ -46,6 +57,7 @@ const Signup_page = () => {
             changeInputValue(e.target.value, setNewUser);
           }}
         />
+        <Label label={"Password"} />
         <Input
           type={"password"}
           value={newPassword}
@@ -53,6 +65,7 @@ const Signup_page = () => {
             changeInputValue(e.target.value, setNewPassword);
           }}
         />
+        <Label label={"Confirm password"} />
         <Input
           type={"password"}
           value={confirmPassword}
@@ -68,6 +81,8 @@ const Signup_page = () => {
           }}
         />
       </form>
+
+      {errorResponse && render_errors(errorResponse)}
     </div>
   );
 };

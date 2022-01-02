@@ -156,39 +156,48 @@ const Blog_page = (props) => {
   }
 
   return (
-    <div>
-      <h1>{blog.title}</h1>
-      <div>{blog.body}</div>
-      <form>
-        <Input
-          type="text"
-          placeholder="Comment here.."
-          on_change={(e) => {
-            changeInputValue(e.target.value, setComment);
-          }}
-          value={comment}
-        />
-        <Button
-          text={"Send"}
-          on_click={async (e) => {
-            e.preventDefault();
-            setErrorResponse(null);
-            let error_response = await leave_comment(token, id, comment);
+    <div className="blog-page">
+      <div className="blog-page-inner">
+        <div className="blog">
+          <h1 className="blog-title">{blog.title}</h1>
+          {/* <div className="blog-description">{blog.created_date}</div> */}
+          <p className="blog-body">{blog.body}</p>
 
-            error_response
-              ? setErrorResponse(error_response)
-              : setErrorResponse(null);
-            get_blog_comments();
-            setComment("");
-          }}
-        />
-      </form>
-      <div>{render_blog_comments()}</div>
-      <div>
-        {errorResponse &&
-          errorResponse.map((error) => {
-            return <div key={error.msg}>{error.msg}</div>;
-          })}
+          <div className="blog-edited-date">
+            {blog.edited_date && blog.edited_date}{" "}
+          </div>
+        </div>
+        <form>
+          <Input
+            type="text"
+            placeholder="Comment here.."
+            on_change={(e) => {
+              changeInputValue(e.target.value, setComment);
+            }}
+            value={comment}
+          />
+          <Button
+            text={"Send"}
+            on_click={async (e) => {
+              e.preventDefault();
+              setErrorResponse(null);
+              let error_response = await leave_comment(token, id, comment);
+
+              error_response
+                ? setErrorResponse(error_response)
+                : setErrorResponse(null);
+              get_blog_comments();
+              setComment("");
+            }}
+          />
+        </form>
+        <div>
+          {errorResponse &&
+            errorResponse.map((error) => {
+              return <div key={error.msg}>{error.msg}</div>;
+            })}
+        </div>
+        <div>{render_blog_comments()}</div>
       </div>
     </div>
   );

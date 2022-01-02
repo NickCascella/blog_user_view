@@ -32,10 +32,10 @@ function App() {
           setBlogs: setBlogs,
         }}
       >
-        <div>
+        <div className="App">
           <nav>
-            <div className="inner_nav">
-              <div className="nav_content">
+            <div className="inner-nav">
+              <div className="nav-links">
                 {!token && <Custom_Link text={"Signup"} route={"/signup"} />}
                 {!token && <Custom_Link text={"Login"} route={"/login"} />}
                 {token && <Custom_Link text={"Blogs"} route={"/blogs"} />}
@@ -52,20 +52,18 @@ function App() {
             </div>
           </nav>
 
-          <div>
-            <Routes>
-              <Route
-                exact
-                path="/"
-                element={<Redirect route={"/login"} />}
-              ></Route>
-              <Route path="/signup" element={<Signup_page />}></Route>
-              <Route path="/login" element={<Login_page />}></Route>
-              <Route path="/blogs" element={<Blogs />}></Route>
-              <Route path="/blogs/:id" element={<Blog_page />}></Route>
-              <Route path="*" element={<Missing_page_404 />}></Route>
-            </Routes>
-          </div>
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={<Redirect route={"/login"} />}
+            ></Route>
+            <Route path="/signup" element={<Signup_page />}></Route>
+            <Route path="/login" element={<Login_page />}></Route>
+            <Route path="/blogs" element={<Blogs />}></Route>
+            <Route path="/blogs/:id" element={<Blog_page />}></Route>
+            <Route path="*" element={<Missing_page_404 />}></Route>
+          </Routes>
         </div>
       </UserContext.Provider>
     </Router>

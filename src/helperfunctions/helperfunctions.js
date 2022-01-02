@@ -23,7 +23,7 @@ const logout = (setToken, setUser, setUserId, setBlogs) => {
 
 //GET BLOGS
 
-const get_blogs = async (token, setBlogs) => {
+const get_blogs = async (token, setBlogs, setToken) => {
   const options = {
     method: "GET",
     headers: {
@@ -32,9 +32,19 @@ const get_blogs = async (token, setBlogs) => {
     },
     mode: "cors",
   };
-  const get_all_blogs = await axios.get("http://localhost:4000/blogs", options);
-  const response = get_all_blogs;
-  setBlogs(response.data);
+  const get_all_blogs = async () => {
+    try {
+      let response = await axios.get("http://localhost:4000/blogs", options);
+      // const response = get_all_blogs();
+      setBlogs(response.data);
+      return;
+    } catch (err) {
+      setToken(null);
+
+      return err;
+    }
+  };
+  get_all_blogs();
 };
 
 //COMMENT RELATED FUNCTION BELOW
@@ -140,6 +150,25 @@ const check_same_comment = (edited_comment_id, blog_comment_id) => {
   return edited_comment_id === blog_comment_id ? true : false;
 };
 
+const render_errors = (error_array) => {
+  return (
+    <div className="rendered-errors">
+      <div className="rendered-error-header">
+        Unable to complete request. Please note the following issues.
+      </div>
+      <ul className="rendered-errors-list">
+        {error_array.map((error) => {
+          return (
+            <li key={error.msg} className="rendered-error-message">
+              {error.msg}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
+
 export {
   changeInputValue,
   logout,
@@ -149,4 +178,5 @@ export {
   delete_comment,
   edit_comment,
   check_same_comment,
+  render_errors,
 };

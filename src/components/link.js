@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Custom_Link = ({ text, route, on_click }) => {
   return (
-    <Link className="link" to={route} onClick={on_click}>
+    <Link className="nav-link" to={route} onClick={on_click}>
       {text}
     </Link>
   );

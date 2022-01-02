@@ -1,35 +1,237 @@
-$primary-color: yellow;
+$background-primary: linear-gradient(to left, #6c7cad, #5561dd);
 
-.button {
-  background-color: $primary-color;
-}
+$background-secondary: rgb(25, 21, 77);
+
+$background-tertiary: rgb(33, 19, 44);
+$font-primary: white;
+
 html {
   * {
-    padding: 0;
     margin: 0;
+    padding: 0;
+  }
+  overflow-x: hidden;
+}
+
+.button-component {
+  background: $background-tertiary;
+  color: $font-primary;
+  width: max-content;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  transition: 0.4s;
+  font-size: 18px;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
   }
 }
 
-nav {
-  display: flex;
-  background-color: pink;
-  justify-content: center;
-  padding: 10px;
-  .inner_nav {
-    display: flex;
-    justify-content: right;
-    max-width: 1400px;
-    width: 100%;
-    .nav_content {
-      // padding: 10px 0;
-      display: flex;
-      width: 35%;
-      justify-content: space-around;
+.input-component {
+  background: $background-secondary;
+  border: none;
+  border-radius: 5px;
+  max-width: 250px;
+  padding: 6px;
+  font-size: 16px;
+  outline: none;
+  color: $font-primary;
+}
 
-      .link {
-        text-decoration: none;
-        color: black;
-        margin-right: 15px;
+.label-component {
+  max-width: max-content;
+}
+
+.textarea-component {
+  background: $background-secondary;
+  color: $font-primary;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 5px;
+  resize: none;
+  font-size: 20px;
+  line-height: 24px;
+  overflow: auto;
+  height: auto;
+  max-width: 400px;
+  padding: 8px;
+}
+
+.rendered-errors {
+  margin-top: 20px;
+
+  .rendered-error-header {
+    font-size: 16px;
+    text-decoration: underline;
+  }
+  .rendered-errors-list {
+    * {
+      margin-top: 10px;
+    }
+  }
+}
+
+.App {
+  color: $font-primary;
+  background: $background-primary;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow-y: auto;
+
+  nav {
+    width: 100%;
+    background-color: $background-secondary;
+    display: flex;
+    justify-content: center;
+    .inner-nav {
+      max-width: 1400px;
+      width: 100%;
+      .nav-links {
+        max-width: 700px;
+        display: flex;
+        justify-content: space-around;
+        margin-left: auto;
+        width: 100%;
+        .nav-link {
+          color: $font-primary;
+          text-decoration: none;
+          margin: 10px 15px;
+          font-size: 20px;
+          display: inline-block;
+          position: relative;
+          &::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            margin-top: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: $font-primary;
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+          }
+          &:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+          }
+        }
+      }
+    }
+  }
+
+  .login-page {
+    margin: auto;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 25px;
+    border-radius: 7px;
+    height: 100%;
+    * {
+      margin-top: 10px;
+    }
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      font-size: 20px;
+
+      .label-component {
+        margin-top: 20px;
+      }
+      .input-component {
+        width: 150px;
+      }
+    }
+    button {
+      margin: 40px auto;
+    }
+  }
+
+  .blogs-page {
+    max-width: 1400px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    .blogs-list-header {
+      margin: 0 30px;
+      word-wrap: break-word;
+    }
+    .blogs-list {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+
+      .blog-preview {
+        margin: 20px 30px;
+        background: $background-secondary;
+        padding: 15px;
+        border-radius: 10px;
+        max-width: 200px;
+        display: flex;
+        align-items: center;
+        height: max-content;
+        transition: 0.5s;
+
+        &:hover {
+          transform: scale(1.1);
+          box-shadow: 0px 0px 14px #000000;
+        }
+        .blog-link {
+          text-decoration: none;
+          color: $font-primary;
+        }
+        .blog-title {
+          margin-bottom: 20px;
+        }
+        h2 {
+          font-size: 20px;
+          font-weight: normal;
+        }
+        .blog-author-container {
+          .blog-author-name {
+            font-style: italic;
+          }
+        }
+        .blog-description {
+          margin-top: 20px;
+          word-break: break-word;
+        }
+      }
+    }
+  }
+
+  .blog-page {
+    max-width: 1400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    box-sizing: border-box;
+    padding: 10px;
+    .blog-page-inner {
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      .blog-title {
+        font-size: 50px;
+      }
+      * {
+        margin-top: 10px;
       }
     }
   }
