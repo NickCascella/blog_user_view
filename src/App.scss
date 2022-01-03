@@ -55,7 +55,7 @@ html {
   line-height: 24px;
   overflow: auto;
   height: auto;
-  max-width: 400px;
+  width: 100%;
   padding: 8px;
 }
 
@@ -230,8 +230,45 @@ html {
       .blog-title {
         font-size: 50px;
       }
+      .button_container {
+        display: flex;
+        justify-content: right;
+
+        button {
+          font-size: 12px;
+          margin: 10px 10px 0 0;
+        }
+      }
+      .blog-editing-popup {
+        .button-container {
+          display: flex;
+          justify-content: right;
+
+          button {
+            font-size: 12px;
+            margin: 0 10px 10px 0;
+          }
+        }
+      }
+      .blog_comment_username {
+        font-style: italic;
+      }
+      .blog_date {
+        width: max-content;
+        margin-left: auto;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
       * {
         margin-top: 10px;
+      }
+      .blog_comment {
+        background: $background-secondary;
+        padding: 5px;
+        border-radius: 8px;
       }
     }
   }

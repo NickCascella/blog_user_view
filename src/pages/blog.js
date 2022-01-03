@@ -12,7 +12,9 @@ import {
   delete_comment,
   edit_comment,
   check_same_comment,
+  render_errors,
 } from "../helperfunctions/helperfunctions";
+import Textarea from "../components/textarea";
 
 const Blog_page = (props) => {
   const { id } = useParams();
@@ -21,7 +23,7 @@ const Blog_page = (props) => {
   const [blog, setBlog] = useState("");
   const [comment, setComment] = useState("");
   const [blogComments, setBlogComments] = useState([]);
-  const [editedComment, setEditiedComment] = useState("");
+  const [editedComment, setEditedComment] = useState("");
   const [errorResponse, setErrorResponse] = useState(null);
 
   useEffect(async () => {
@@ -73,10 +75,79 @@ const Blog_page = (props) => {
           return (
             <div key={blog_comment._id}>
               {!check_same_comment(editedComment._id, blog_comment._id) && (
-                <div>
+                <div className="blog_comment">
                   <div>{blog_comment.body}</div>
-                  <div>{blog_comment.author.username}</div>
-                  {blog_comment.author.username === user_context.user && (
+                  <div className="blog_comment_username">
+                    {blog_comment.author.username}
+                  </div>
+                  <div className="button_container">
+                    {blog_comment.author.username === user_context.user && (
+                      <Button
+                        text="Delete"
+                        on_click={async () => {
+                          await delete_comment(token, id, blog_comment._id);
+                          get_blog_comments();
+                        }}
+                      />
+                    )}
+                    {blog_comment.author.username === user_context.user && (
+                      <Button
+                        text={"Edit"}
+                        on_click={() => {
+                          editedComment
+                            ? setEditedComment(false)
+                            : setEditedComment(blog_comment);
+                        }}
+                      />
+                    )}
+                  </div>
+
+                  {blog_comment.date && (
+                    <div className="blog_date">{blog_comment.date}</div>
+                  )}
+                </div>
+              )}
+              {check_same_comment(editedComment._id, blog_comment._id) && (
+                <div className="blog-editing-popup">
+                  <Textarea
+                    minRowsStart={5}
+                    state={editedComment.body}
+                    setState={setEditedComment}
+                    additionalOnchange={(e) => {
+                      let editedCommentCopy = { ...editedComment };
+                      editedCommentCopy.body = e.target.value;
+                      changeInputValue(editedCommentCopy, setEditedComment);
+                    }}
+                  />
+
+                  <div className="button-container">
+                    <Button
+                      text="Submit Edits"
+                      on_click={async (e) => {
+                        e.preventDefault();
+                        setErrorResponse(null);
+                        let error_response = await edit_comment(
+                          token,
+                          id,
+                          blog_comment._id,
+                          editedComment,
+                          setEditedComment
+                        );
+                        error_response
+                          ? setErrorResponse(error_response)
+                          : setErrorResponse(null);
+                        get_blog_comments();
+                      }}
+                    />
+
+                    <Button
+                      text={"Cancel"}
+                      on_click={() => {
+                        editedComment
+                          ? setEditedComment(false)
+                          : setEditedComment(blog_comment);
+                      }}
+                    />
                     <Button
                       text="Delete"
                       on_click={async () => {
@@ -84,64 +155,9 @@ const Blog_page = (props) => {
                         get_blog_comments();
                       }}
                     />
-                  )}
+                  </div>
                 </div>
               )}
-              {check_same_comment(editedComment._id, blog_comment._id) && (
-                <div>
-                  <Input
-                    type="text"
-                    placeholder="Your edited comment"
-                    on_change={(e) => {
-                      let editedCommentCopy = { ...editedComment };
-                      editedCommentCopy.body = e.target.value;
-                      changeInputValue(editedCommentCopy, setEditiedComment);
-                    }}
-                    value={editedComment.body}
-                  />
-                  <Button
-                    text="Submit Edits"
-                    on_click={async (e) => {
-                      e.preventDefault();
-                      setErrorResponse(null);
-                      let error_response = await edit_comment(
-                        token,
-                        id,
-                        blog_comment._id,
-                        editedComment,
-                        setEditiedComment
-                      );
-                      error_response
-                        ? setErrorResponse(error_response)
-                        : setErrorResponse(null);
-                      get_blog_comments();
-                    }}
-                  />
-                </div>
-              )}
-              {blog_comment.author.username === user_context.user && (
-                <Button
-                  text={
-                    <div>
-                      {" "}
-                      {!check_same_comment(
-                        editedComment._id,
-                        blog_comment._id
-                      ) && <div>Edit</div>}
-                      {check_same_comment(
-                        editedComment._id,
-                        blog_comment._id
-                      ) && <div>Cancel</div>}
-                    </div>
-                  }
-                  on_click={() => {
-                    editedComment
-                      ? setEditiedComment(false)
-                      : setEditiedComment(blog_comment);
-                  }}
-                />
-              )}
-              <div>{blog_comment.date}</div>
             </div>
           );
         })}
@@ -162,20 +178,14 @@ const Blog_page = (props) => {
           <h1 className="blog-title">{blog.title}</h1>
           {/* <div className="blog-description">{blog.created_date}</div> */}
           <p className="blog-body">{blog.body}</p>
-
+          <div>{blog.created_date}</div>
           <div className="blog-edited-date">
             {blog.edited_date && blog.edited_date}{" "}
           </div>
         </div>
         <form>
-          <Input
-            type="text"
-            placeholder="Comment here.."
-            on_change={(e) => {
-              changeInputValue(e.target.value, setComment);
-            }}
-            value={comment}
-          />
+          <Textarea minRowsStart={1} state={comment} setState={setComment} />
+
           <Button
             text={"Send"}
             on_click={async (e) => {
@@ -191,13 +201,8 @@ const Blog_page = (props) => {
             }}
           />
         </form>
-        <div>
-          {errorResponse &&
-            errorResponse.map((error) => {
-              return <div key={error.msg}>{error.msg}</div>;
-            })}
-        </div>
-        <div>{render_blog_comments()}</div>
+        <div>{errorResponse && render_errors(errorResponse)}</div>
+        {render_blog_comments()}
       </div>
     </div>
   );

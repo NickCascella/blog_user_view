@@ -11,8 +11,8 @@ import Redirect from "../components/redirect";
 import Label from "../components/label";
 
 const Login_page = () => {
-  const [loginUser, setLoginUser] = useState("Nick");
-  const [password, setPassword] = useState("hello");
+  const [loginUser, setLoginUser] = useState("");
+  const [password, setPassword] = useState("");
   const [errorResponse, setErrorResponse] = useState(null);
   const user_context = useContext(UserContext);
 
@@ -27,24 +27,24 @@ const Login_page = () => {
         password: password,
       },
     };
-    console.log(options);
 
-    const get_token = await axios.post(
+    const response = await axios.post(
       "http://localhost:4000/auth/login",
       options
     );
-    setLoginUser("");
-    setPassword("");
 
-    if (get_token.data.errors) {
-      setErrorResponse(get_token.data.errors);
+    if (response.data.errors) {
+      setErrorResponse(response.data.errors);
       return;
     }
 
+    // FIX LOGIN SO IT RENDERS ERRORS!
+    setLoginUser("");
+    setPassword("");
     setErrorResponse(null);
-    user_context.setUser(get_token.data.user);
-    user_context.setUserId(get_token.data.userId);
-    user_context.setToken(get_token.data.token);
+    user_context.setUser(response.data.user);
+    user_context.setUserId(response.data.userId);
+    user_context.setToken(response.data.token);
   };
 
   if (user_context.token) {
