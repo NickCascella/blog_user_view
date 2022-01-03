@@ -4,7 +4,6 @@ import { UserContext } from "../App";
 import { useParams } from "react-router-dom";
 import Loading_page from "../components/loading";
 import Button from "../components/button";
-import Input from "../components/input";
 import Redirect from "../components/redirect";
 import {
   changeInputValue,
@@ -20,6 +19,7 @@ const Blog_page = (props) => {
   const { id } = useParams();
   const user_context = useContext(UserContext);
   const token = user_context.token;
+  const setToken = user_context.setToken;
   const [blog, setBlog] = useState("");
   const [comment, setComment] = useState("");
   const [blogComments, setBlogComments] = useState([]);
@@ -40,12 +40,20 @@ const Blog_page = (props) => {
       },
       mode: "cors",
     };
-    const get_blog = await axios.get(
-      `http://localhost:4000/blogs/${id}`,
-      options
-    );
-    const response = get_blog;
-    setBlog(response.data);
+    const get_the_blog = async () => {
+      try {
+        let response = await axios.get(
+          `${user_context.webAddress}/blogs/${id}`,
+          options
+        );
+        setBlog(response.data);
+        return;
+      } catch (err) {
+        setToken(null);
+        return err;
+      }
+    };
+    get_the_blog();
   };
 
   const get_blog_comments = async () => {
@@ -58,7 +66,7 @@ const Blog_page = (props) => {
       mode: "cors",
     };
     const get_blog_comments = await axios.get(
-      `http://localhost:4000/blogs/${id}/comments`,
+      `${user_context.webAddress}/blogs/${id}/comments`,
       options
     );
     const response = get_blog_comments;
@@ -85,7 +93,12 @@ const Blog_page = (props) => {
                       <Button
                         text="Delete"
                         on_click={async () => {
-                          await delete_comment(token, id, blog_comment._id);
+                          await delete_comment(
+                            token,
+                            id,
+                            blog_comment._id,
+                            user_context
+                          );
                           get_blog_comments();
                         }}
                       />
@@ -131,7 +144,8 @@ const Blog_page = (props) => {
                           id,
                           blog_comment._id,
                           editedComment,
-                          setEditedComment
+                          setEditedComment,
+                          user_context
                         );
                         error_response
                           ? setErrorResponse(error_response)
@@ -151,7 +165,12 @@ const Blog_page = (props) => {
                     <Button
                       text="Delete"
                       on_click={async () => {
-                        await delete_comment(token, id, blog_comment._id);
+                        await delete_comment(
+                          token,
+                          id,
+                          blog_comment._id,
+                          user_context
+                        );
                         get_blog_comments();
                       }}
                     />
@@ -194,7 +213,12 @@ const Blog_page = (props) => {
             on_click={async (e) => {
               e.preventDefault();
               setErrorResponse(null);
-              let error_response = await leave_comment(token, id, comment);
+              let error_response = await leave_comment(
+                token,
+                id,
+                comment,
+                user_context
+              );
 
               error_response
                 ? setErrorResponse(error_response)

@@ -1,4 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Roboto&display=swap");
+.unreachable-url {
+  margin-top: 20px;
+  font-size: 30px;
+  max-width: 500px;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 .loading-container {
   display: -webkit-box;
   display: -ms-flexbox;

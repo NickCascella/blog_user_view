@@ -14,7 +14,7 @@ const Blogs = () => {
   const setBlogs = user_context.setBlogs;
 
   useEffect(() => {
-    get_blogs(token, setBlogs, setToken);
+    get_blogs(token, setBlogs, setToken, user_context);
   }, []);
 
   const render_blogs = () => {

@@ -17,19 +17,22 @@ function App() {
   const [blogs, setBlogs] = useState(null);
   const [user, setUser] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [webAddress, setWebAddress] = useState("http://localhost:4000");
 
   return (
     <Router>
       <UserContext.Provider
         value={{
-          token: token,
-          setToken: setToken,
-          user: user,
-          setUser: setUser,
-          userId: userId,
-          setUserId: setUserId,
-          blogs: blogs,
+          token,
+          setToken,
+          user,
+          setUser,
+          userId,
+          setUserId,
+          blogs,
           setBlogs: setBlogs,
+          webAddress,
+          setWebAddress,
         }}
       >
         <div className="App">

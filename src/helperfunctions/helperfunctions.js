@@ -23,7 +23,7 @@ const logout = (setToken, setUser, setUserId, setBlogs) => {
 
 //GET BLOGS
 
-const get_blogs = async (token, setBlogs, setToken) => {
+const get_blogs = async (token, setBlogs, setToken, user_context) => {
   const options = {
     method: "GET",
     headers: {
@@ -34,7 +34,10 @@ const get_blogs = async (token, setBlogs, setToken) => {
   };
   const get_all_blogs = async () => {
     try {
-      let response = await axios.get("http://localhost:4000/blogs", options);
+      let response = await axios.get(
+        `${user_context.webAddress}/blogs`,
+        options
+      );
       // const response = get_all_blogs();
       setBlogs(response.data);
       return;
@@ -49,7 +52,7 @@ const get_blogs = async (token, setBlogs, setToken) => {
 
 //COMMENT RELATED FUNCTION BELOW
 
-const get_blog_comments = async (token, id, setBlogComments) => {
+const get_blog_comments = async (token, id, setBlogComments, user_context) => {
   const options = {
     method: "GET",
     headers: {
@@ -59,7 +62,7 @@ const get_blog_comments = async (token, id, setBlogComments) => {
     mode: "cors",
   };
   const get_blog_comments = await axios.get(
-    `http://localhost:4000/blogs/${id}/comments`,
+    `${user_context.webAddress}/blogs/${id}/comments`,
     options
   );
   const response = get_blog_comments;
@@ -67,7 +70,7 @@ const get_blog_comments = async (token, id, setBlogComments) => {
   setBlogComments(response.data);
 };
 
-const leave_comment = async (token, id, comment) => {
+const leave_comment = async (token, id, comment, user_context) => {
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
@@ -84,7 +87,7 @@ const leave_comment = async (token, id, comment) => {
   };
 
   const create_comment = await axios.post(
-    `http://localhost:4000/blogs/${id}/comments`,
+    `${user_context.webAddress}/blogs/${id}/comments`,
     options,
     { headers }
   );
@@ -95,7 +98,7 @@ const leave_comment = async (token, id, comment) => {
   }
 };
 
-const delete_comment = async (token, id, comment_id) => {
+const delete_comment = async (token, id, comment_id, user_context) => {
   const options = {
     headers: {
       "Content-Type": "application/json",
@@ -107,7 +110,7 @@ const delete_comment = async (token, id, comment_id) => {
   };
 
   const delete_comment_request = await axios.delete(
-    `http://localhost:4000/blogs/${id}/comments`,
+    `${user_context.webAddress}/blogs/${id}/comments`,
     options
   );
 };
@@ -117,7 +120,8 @@ const edit_comment = async (
   id,
   comment_id,
   editedComment,
-  setEditiedComment
+  setEditiedComment,
+  user_context
 ) => {
   const headers = {
     "Content-Type": "application/json",
@@ -135,7 +139,7 @@ const edit_comment = async (
   };
 
   const submit_edits = await axios.put(
-    `http://localhost:4000/blogs/${id}/comments`,
+    `${user_context.webAddress}/blogs/${id}/comments`,
     options,
     { headers }
   );

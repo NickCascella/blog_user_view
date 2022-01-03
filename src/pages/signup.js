@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import {
   changeInputValue,
@@ -8,6 +8,7 @@ import Redirect from "../components/redirect";
 import Input from "../components/input";
 import Button from "../components/button";
 import Label from "../components/label";
+import { UserContext } from "../App";
 
 const Signup_page = () => {
   const [newUser, setNewUser] = useState("Nick");
@@ -15,6 +16,7 @@ const Signup_page = () => {
   const [confirmPassword, setConfirmedPassword] = useState("hello");
   const [errorResponse, setErrorResponse] = useState(null);
   const [signedUp, setSignedUp] = useState(false);
+  const user_context = useContext(UserContext);
 
   const signupTest = async () => {
     const options = {
@@ -30,7 +32,7 @@ const Signup_page = () => {
       },
     };
     const signup_request = await axios.post(
-      "http://localhost:4000/auth/signup",
+      `${user_context.webAddress}/auth/signup`,
       options
     );
     const response = signup_request;

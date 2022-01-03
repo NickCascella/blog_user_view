@@ -1,13 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Roboto&display=swap");
-
-// $background-primary: linear-gradient(to left, #6c7cad, #5561dd);
-// $background-secondary: rgb(25, 21, 77);
-
 $background-primary: linear-gradient(to left, #5cb6b1, #4d79ca);
 $background-secondary: rgb(26, 72, 156);
 $background-tertiary: rgb(33, 19, 44);
 $font-primary: white;
 $font-family-primary: "Lato", sans-serif;
+
+.unreachable-url {
+  margin-top: 20px;
+  font-size: 30px;
+  max-width: 500px;
+  padding: 10px;
+  box-sizing: border-box;
+}
 
 .loading-container {
   display: flex;
