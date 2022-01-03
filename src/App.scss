@@ -1,9 +1,37 @@
-$background-primary: linear-gradient(to left, #6c7cad, #5561dd);
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Roboto&display=swap");
 
-$background-secondary: rgb(25, 21, 77);
+// $background-primary: linear-gradient(to left, #6c7cad, #5561dd);
+// $background-secondary: rgb(25, 21, 77);
 
+$background-primary: linear-gradient(to left, #5cb6b1, #4d79ca);
+$background-secondary: rgb(26, 72, 156);
 $background-tertiary: rgb(33, 19, 44);
 $font-primary: white;
+$font-family-primary: "Lato", sans-serif;
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  .loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid $background-secondary; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
 
 html {
   * {
@@ -16,6 +44,7 @@ html {
 .button-component {
   background: $background-tertiary;
   color: $font-primary;
+  font-family: $font-family-primary;
   width: max-content;
   margin: 0 auto;
   padding: 10px;
@@ -83,7 +112,7 @@ html {
   flex-direction: column;
   box-sizing: border-box;
   overflow-y: auto;
-
+  font-family: $font-family-primary;
   nav {
     width: 100%;
     background-color: $background-secondary;
@@ -230,10 +259,14 @@ html {
       .blog-title {
         font-size: 50px;
       }
+
+      .blog-body {
+        font-size: 30px;
+      }
+
       .button_container {
         display: flex;
         justify-content: right;
-
         button {
           font-size: 12px;
           margin: 10px 10px 0 0;
@@ -253,6 +286,7 @@ html {
       .blog_comment_username {
         font-style: italic;
       }
+
       .blog_date {
         width: max-content;
         margin-left: auto;

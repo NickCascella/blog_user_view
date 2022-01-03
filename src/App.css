@@ -1,3 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Roboto&display=swap");
+.loading-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100%;
+}
+
+.loading-container .loader {
+  border: 16px solid #f3f3f3;
+  /* Light grey */
+  border-top: 16px solid #1a489c;
+  /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+          animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
 html {
   overflow-x: hidden;
 }
@@ -10,6 +58,7 @@ html * {
 .button-component {
   background: #21132c;
   color: white;
+  font-family: "Lato", sans-serif;
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
@@ -28,7 +77,7 @@ html * {
 }
 
 .input-component {
-  background: #19154d;
+  background: #1a489c;
   border: none;
   border-radius: 5px;
   max-width: 250px;
@@ -45,7 +94,7 @@ html * {
 }
 
 .textarea-component {
-  background: #19154d;
+  background: #1a489c;
   color: white;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -75,8 +124,8 @@ html * {
 
 .App {
   color: white;
-  background: -webkit-gradient(linear, right top, left top, from(#6c7cad), to(#5561dd));
-  background: linear-gradient(to left, #6c7cad, #5561dd);
+  background: -webkit-gradient(linear, right top, left top, from(#5cb6b1), to(#4d79ca));
+  background: linear-gradient(to left, #5cb6b1, #4d79ca);
   width: 100%;
   height: 100vh;
   display: -webkit-box;
@@ -92,11 +141,12 @@ html * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   overflow-y: auto;
+  font-family: "Lato", sans-serif;
 }
 
 .App nav {
   width: 100%;
-  background-color: #19154d;
+  background-color: #1a489c;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -237,7 +287,7 @@ html * {
 
 .App .blogs-page .blogs-list .blog-preview {
   margin: 20px 30px;
-  background: #19154d;
+  background: #1a489c;
   padding: 15px;
   border-radius: 10px;
   max-width: 200px;
@@ -320,6 +370,10 @@ html * {
   font-size: 50px;
 }
 
+.App .blog-page .blog-page-inner .blog-body {
+  font-size: 30px;
+}
+
 .App .blog-page .blog-page-inner .button_container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -374,7 +428,7 @@ html * {
 }
 
 .App .blog-page .blog-page-inner .blog_comment {
-  background: #19154d;
+  background: #1a489c;
   padding: 5px;
   border-radius: 8px;
 }

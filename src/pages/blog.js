@@ -76,7 +76,7 @@ const Blog_page = (props) => {
             <div key={blog_comment._id}>
               {!check_same_comment(editedComment._id, blog_comment._id) && (
                 <div className="blog_comment">
-                  <div>{blog_comment.body}</div>
+                  <div className="blog-comment-body">{blog_comment.body}</div>
                   <div className="blog_comment_username">
                     {blog_comment.author.username}
                   </div>
@@ -168,7 +168,7 @@ const Blog_page = (props) => {
   if (!token) {
     return <Redirect route={"/login"} />;
   } else if (!blog) {
-    return <Loading_page message={"Loading :("} />;
+    return <Loading_page message={"Loading..."} />;
   }
 
   return (
@@ -176,7 +176,6 @@ const Blog_page = (props) => {
       <div className="blog-page-inner">
         <div className="blog">
           <h1 className="blog-title">{blog.title}</h1>
-          {/* <div className="blog-description">{blog.created_date}</div> */}
           <p className="blog-body">{blog.body}</p>
           <div>{blog.created_date}</div>
           <div className="blog-edited-date">
@@ -184,8 +183,12 @@ const Blog_page = (props) => {
           </div>
         </div>
         <form>
-          <Textarea minRowsStart={1} state={comment} setState={setComment} />
-
+          <Textarea
+            minRowsStart={1}
+            state={comment}
+            setState={setComment}
+            placeholder={"Comment here..."}
+          />
           <Button
             text={"Send"}
             on_click={async (e) => {
