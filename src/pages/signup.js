@@ -11,9 +11,9 @@ import Label from "../components/label";
 import { UserContext } from "../App";
 
 const Signup_page = () => {
-  const [newUser, setNewUser] = useState("Nick");
-  const [newPassword, setNewPassword] = useState("hello");
-  const [confirmPassword, setConfirmedPassword] = useState("hello");
+  const [newUser, setNewUser] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmedPassword] = useState("");
   const [errorResponse, setErrorResponse] = useState(null);
   const [signedUp, setSignedUp] = useState(false);
   const user_context = useContext(UserContext);

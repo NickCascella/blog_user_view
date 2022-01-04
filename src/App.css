@@ -24,7 +24,7 @@
 .loading-container .loader {
   border: 16px solid #f3f3f3;
   /* Light grey */
-  border-top: 16px solid #1a489c;
+  border-top: 16px solid #00203fff;
   /* Blue */
   border-radius: 50%;
   width: 120px;
@@ -65,7 +65,7 @@ html * {
 }
 
 .button-component {
-  background: #21132c;
+  background: #161418;
   color: white;
   font-family: "Lato", sans-serif;
   width: -webkit-max-content;
@@ -86,7 +86,7 @@ html * {
 }
 
 .input-component {
-  background: #1a489c;
+  background: #00203fff;
   border: none;
   border-radius: 5px;
   max-width: 250px;
@@ -103,7 +103,7 @@ html * {
 }
 
 .textarea-component {
-  background: #1a489c;
+  background: #00203fff;
   color: white;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -133,8 +133,8 @@ html * {
 
 .App {
   color: white;
-  background: -webkit-gradient(linear, right top, left top, from(#5cb6b1), to(#4d79ca));
-  background: linear-gradient(to left, #5cb6b1, #4d79ca);
+  background: -webkit-gradient(linear, right top, left top, from(#184a45ff), to(#2b7e75));
+  background: linear-gradient(to left, #184a45ff, #2b7e75);
   width: 100%;
   height: 100vh;
   display: -webkit-box;
@@ -155,7 +155,7 @@ html * {
 
 .App nav {
   width: 100%;
-  background-color: #1a489c;
+  background-color: #00203fff;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -296,7 +296,7 @@ html * {
 
 .App .blogs-page .blogs-list .blog-preview {
   margin: 20px 30px;
-  background: #1a489c;
+  background: #00203fff;
   padding: 15px;
   border-radius: 10px;
   max-width: 200px;
@@ -411,17 +411,6 @@ html * {
   margin: 0 10px 10px 0;
 }
 
-.App .blog-page .blog-page-inner .blog_comment_username {
-  font-style: italic;
-}
-
-.App .blog-page .blog-page-inner .blog_date {
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
-  margin-left: auto;
-}
-
 .App .blog-page .blog-page-inner form {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -437,8 +426,23 @@ html * {
 }
 
 .App .blog-page .blog-page-inner .blog_comment {
-  background: #1a489c;
+  background: #00203fff;
   padding: 5px;
   border-radius: 8px;
+}
+
+.App .blog-page .blog-page-inner .blog_comment .blog-comment-body {
+  font-size: 20px;
+}
+
+.App .blog-page .blog-page-inner .blog_comment .blog_comment_username {
+  font-style: italic;
+}
+
+.App .blog-page .blog-page-inner .blog_comment .blog_date {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  margin-left: auto;
 }
 /*# sourceMappingURL=App.css.map */

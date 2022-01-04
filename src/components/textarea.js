@@ -46,7 +46,9 @@ const Textarea = ({
       onChange={(e) => {
         handleChange(e);
         setState(e.target.value);
-        additionalOnchange(e);
+        if (additionalOnchange) {
+          additionalOnchange(e);
+        }
       }}
       placeholder={placeholder || ""}
     ></textarea>

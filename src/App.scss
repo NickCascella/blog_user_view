@@ -1,7 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Roboto&display=swap");
-$background-primary: linear-gradient(to left, #5cb6b1, #4d79ca);
-$background-secondary: rgb(26, 72, 156);
-$background-tertiary: rgb(33, 19, 44);
+// $background-primary: linear-gradient(to left, #5cb6b1, #4d79ca);
+// $background-secondary: rgb(26, 72, 156);
+$background-primary: linear-gradient(to left, #184a45ff, rgb(43, 126, 117));
+$background-secondary: #00203fff;
+$background-tertiary: rgb(22, 20, 24);
 $font-primary: white;
 $font-family-primary: "Lato", sans-serif;
 
@@ -287,14 +289,6 @@ html {
           }
         }
       }
-      .blog_comment_username {
-        font-style: italic;
-      }
-
-      .blog_date {
-        width: max-content;
-        margin-left: auto;
-      }
 
       form {
         display: flex;
@@ -307,6 +301,17 @@ html {
         background: $background-secondary;
         padding: 5px;
         border-radius: 8px;
+        .blog-comment-body {
+          font-size: 20px;
+        }
+        .blog_comment_username {
+          font-style: italic;
+        }
+
+        .blog_date {
+          width: max-content;
+          margin-left: auto;
+        }
       }
     }
   }
