@@ -50,9 +50,34 @@ const get_blogs = async (token, setBlogs, setToken, user_context) => {
   get_all_blogs();
 };
 
+const get_blog = async (id, token, setToken, setBlog, user_context) => {
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    mode: "cors",
+  };
+  const get_the_blog = async () => {
+    try {
+      let response = await axios.get(
+        `${user_context.webAddress}/blogs/${id}`,
+        options
+      );
+      setBlog(response.data);
+      return;
+    } catch (err) {
+      setToken(null);
+      return err;
+    }
+  };
+  get_the_blog();
+};
+
 //COMMENT RELATED FUNCTION BELOW
 
-const get_blog_comments = async (token, id, setBlogComments, user_context) => {
+const get_blog_comments = async (id, token, setBlogComments, user_context) => {
   const options = {
     method: "GET",
     headers: {
@@ -66,7 +91,6 @@ const get_blog_comments = async (token, id, setBlogComments, user_context) => {
     options
   );
   const response = get_blog_comments;
-  console.log(response.data);
   setBlogComments(response.data);
 };
 
@@ -177,6 +201,7 @@ export {
   changeInputValue,
   logout,
   get_blogs,
+  get_blog,
   get_blog_comments,
   leave_comment,
   delete_comment,

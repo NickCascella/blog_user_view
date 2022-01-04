@@ -36,7 +36,7 @@ const Signup_page = () => {
       options
     );
     const response = signup_request;
-    console.log(response);
+
     if (response.data.errors) {
       setErrorResponse(response.data.errors);
       return;

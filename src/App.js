@@ -17,7 +17,9 @@ function App() {
   const [blogs, setBlogs] = useState(null);
   const [user, setUser] = useState(null);
   const [userId, setUserId] = useState(null);
-  const [webAddress, setWebAddress] = useState("http://localhost:4000");
+  const [webAddress, setWebAddress] = useState(
+    "https://enigmatic-harbor-91646.herokuapp.com"
+  );
 
   return (
     <Router>

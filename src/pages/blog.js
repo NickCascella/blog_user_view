@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { UserContext } from "../App";
 import { useParams } from "react-router-dom";
 import Loading_page from "../components/loading";
@@ -12,6 +11,8 @@ import {
   edit_comment,
   check_same_comment,
   render_errors,
+  get_blog,
+  get_blog_comments,
 } from "../helperfunctions/helperfunctions";
 import Textarea from "../components/textarea";
 
@@ -27,51 +28,9 @@ const Blog_page = (props) => {
   const [errorResponse, setErrorResponse] = useState(null);
 
   useEffect(async () => {
-    await get_blog();
-    get_blog_comments();
+    await get_blog(id, token, setToken, setBlog, user_context);
+    get_blog_comments(id, token, setBlogComments, user_context);
   }, []);
-
-  const get_blog = async () => {
-    const options = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      mode: "cors",
-    };
-    const get_the_blog = async () => {
-      try {
-        let response = await axios.get(
-          `${user_context.webAddress}/blogs/${id}`,
-          options
-        );
-        setBlog(response.data);
-        return;
-      } catch (err) {
-        setToken(null);
-        return err;
-      }
-    };
-    get_the_blog();
-  };
-
-  const get_blog_comments = async () => {
-    const options = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      mode: "cors",
-    };
-    const get_blog_comments = await axios.get(
-      `${user_context.webAddress}/blogs/${id}/comments`,
-      options
-    );
-    const response = get_blog_comments;
-    setBlogComments(response.data);
-  };
 
   const render_blog_comments = () => {
     if (blogComments.length === 0 || !blogComments) {
@@ -99,7 +58,12 @@ const Blog_page = (props) => {
                             blog_comment._id,
                             user_context
                           );
-                          get_blog_comments();
+                          get_blog_comments(
+                            id,
+                            token,
+                            setBlogComments,
+                            user_context
+                          );
                         }}
                       />
                     )}
@@ -150,7 +114,12 @@ const Blog_page = (props) => {
                         error_response
                           ? setErrorResponse(error_response)
                           : setErrorResponse(null);
-                        get_blog_comments();
+                        get_blog_comments(
+                          id,
+                          token,
+                          setBlogComments,
+                          user_context
+                        );
                       }}
                     />
 
@@ -171,7 +140,12 @@ const Blog_page = (props) => {
                           blog_comment._id,
                           user_context
                         );
-                        get_blog_comments();
+                        get_blog_comments(
+                          id,
+                          token,
+                          setBlogComments,
+                          user_context
+                        );
                       }}
                     />
                   </div>
@@ -223,7 +197,7 @@ const Blog_page = (props) => {
               error_response
                 ? setErrorResponse(error_response)
                 : setErrorResponse(null);
-              get_blog_comments();
+              get_blog_comments(id, token, setBlogComments, user_context);
               setComment("");
             }}
           />
